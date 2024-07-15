@@ -38,8 +38,8 @@ CippListOffcanvas.propTypes = {
   hideFunction: PropTypes.func.isRequired,
 }
 
-export function OffcanvasListSection({ title, items, showCardTitle = true }) {
-  //console.log(items)
+export function OffcanvasListSection({ title, items }) {
+  console.log(items)
   const mappedItems = items.map((item, key) => ({ value: item.content, label: item.heading }))
   return (
     <>
@@ -48,11 +48,7 @@ export function OffcanvasListSection({ title, items, showCardTitle = true }) {
         <CCard className="content-card">
           <CCardHeader className="d-flex justify-content-between align-items-center">
             <CCardTitle>
-              {showCardTitle && (
-                <>
-                  <FontAwesomeIcon icon={faGlobe} className="mx-2" /> Extended Information
-                </>
-              )}
+              <FontAwesomeIcon icon={faGlobe} className="mx-2" /> Extended Information
             </CCardTitle>
           </CCardHeader>
           <CCardBody>
@@ -66,5 +62,4 @@ export function OffcanvasListSection({ title, items, showCardTitle = true }) {
 OffcanvasListSection.propTypes = {
   title: PropTypes.string,
   items: PropTypes.array,
-  showCardTitle: PropTypes.bool,
 }

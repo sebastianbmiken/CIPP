@@ -47,7 +47,6 @@ export default function CellBoolean({
     if (
       cell.toLowerCase() === 'success' ||
       cell.toLowerCase() === 'enabled' ||
-      cell.toLowerCase() === 'enforced' ||
       cell.toLowerCase() === 'pass' ||
       cell.toLowerCase() === 'true' ||
       cell.toLowerCase() === 'compliant'

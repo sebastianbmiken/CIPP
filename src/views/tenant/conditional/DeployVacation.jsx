@@ -50,17 +50,7 @@ const ListClassicAlerts = () => {
     data: users = [],
     isFetching: usersIsFetching,
     error: usersError,
-  } = useGenericGetRequestQuery({
-    path: '/api/ListGraphRequest',
-    params: {
-      TenantFilter: tenantDomain,
-      Endpoint: 'users',
-      $select: 'id,displayName,userPrincipalName,accountEnabled',
-      $count: true,
-      $top: 999,
-      $orderby: 'displayName',
-    },
-  })
+  } = useListUsersQuery({ tenantDomain })
 
   const {
     data: caPolicies = [],
@@ -100,13 +90,12 @@ const ListClassicAlerts = () => {
                         <CCol>
                           <RFFSelectSearch
                             label={'Users in ' + tenantDomain}
-                            values={users?.Results?.map((user) => ({
+                            values={users?.map((user) => ({
                               value: user.id,
                               name: `${user.displayName} <${user.userPrincipalName}>`,
                             }))}
                             placeholder={!usersIsFetching ? 'Select user' : 'Loading...'}
                             name="UserId"
-                            isLoading={usersIsFetching}
                           />
                         </CCol>
                       </CRow>
@@ -120,7 +109,6 @@ const ListClassicAlerts = () => {
                             }))}
                             placeholder={!caIsFetching ? 'Select policy' : 'Loading...'}
                             name="PolicyId"
-                            isLoading={caIsFetching}
                           />
                         </CCol>
                       </CRow>

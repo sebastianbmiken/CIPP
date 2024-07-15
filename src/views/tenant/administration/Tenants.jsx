@@ -11,9 +11,8 @@ import { CippTenantOffcanvasRow } from 'src/components/utilities/CippTenantOffca
 const TenantsList = () => {
   const TenantListSelector = useSelector((state) => state.app.TenantListSelector)
   const tenant = useSelector((state) => state.app.currentTenant)
-  //console.log('TenantListSelector', TenantListSelector)
   const [columnOmits, setOmitVisible] = useState(TenantListSelector)
-  //console.log('columnOmits', columnOmits)
+
   const generatePortalColumn = (portal) => ({
     name: portal.label,
     omit: columnOmits,
@@ -60,7 +59,7 @@ const TenantsList = () => {
   ]
   const titleButton = (
     <TitleButton
-      icon={'cog'}
+      icon={'faCog'}
       onClick={() => setOmitVisible(!columnOmits)}
       title={columnOmits ? 'Show Direct Links' : 'Hide Direct Links'}
     />
@@ -74,7 +73,6 @@ const TenantsList = () => {
       datatable={{
         keyField: 'id',
         columns,
-        dynamicColumns: false,
         reportName: `${tenant.tenantId}-Tenants-List`,
         path: '/api/ListTenants',
       }}

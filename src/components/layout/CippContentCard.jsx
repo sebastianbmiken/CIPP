@@ -5,7 +5,6 @@ import { CCard, CCardBody, CCardHeader, CCardTitle } from '@coreui/react'
 
 export default function CippContentCard({
   title,
-  titleType = 'small',
   children,
   icon,
   button,
@@ -15,9 +14,7 @@ export default function CippContentCard({
   return (
     <CCard className={`content-card h-100 ${className ?? ''}`}>
       <CCardHeader className="d-flex justify-content-between align-items-center">
-        <CCardTitle>
-          {titleType === 'big' ? <h3 className="underline mb-3">{title}</h3> : title}
-        </CCardTitle>
+        <CCardTitle>{title}</CCardTitle>
         {icon ? <FontAwesomeIcon icon={icon} /> : null}
         {button ? button : null}
       </CCardHeader>

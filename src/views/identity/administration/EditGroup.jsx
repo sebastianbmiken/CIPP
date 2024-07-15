@@ -18,7 +18,6 @@ import {
   useListGroupMembersQuery,
   useListGroupOwnersQuery,
   useListGroupQuery,
-  useListGroupSenderAuthQuery,
 } from 'src/store/api/groups'
 import { useDispatch } from 'react-redux'
 import { ModalService } from 'src/components/utilities'
@@ -89,13 +88,6 @@ const EditGroup = () => {
     }
   }, [owners, members, ownersIsSuccess, membersIsSuccess, postResults])
 
-  const {
-    data: SenderAuth = {},
-    isFetching: SenderAuthisFetching,
-    error: SenderAuthError,
-    isSuccess: SenderAuthIsSuccess,
-  } = useListGroupSenderAuthQuery({ tenantDomain, groupId, type: group?.[0]?.calculatedGroupType })
-
   useEffect(() => {
     if (!groupId || !tenantDomain) {
       ModalService.open({
@@ -105,7 +97,6 @@ const EditGroup = () => {
       setQueryError(true)
     }
   }, [groupId, tenantDomain, dispatch])
-
   const onSubmit = (values) => {
     const shippedValues = {
       tenantID: tenantDomain,
@@ -120,7 +111,7 @@ const EditGroup = () => {
       allowExternal: values.allowExternal,
       sendCopies: values.sendCopies,
       mail: group[0].mail,
-      groupName: group[0].displayName,
+      groupName: group[0].DisplayName,
     }
     //window.alert(JSON.stringify(shippedValues))
     genericPostRequest({ path: '/api/EditGroup', values: shippedValues }).then((res) => {
@@ -163,12 +154,6 @@ const EditGroup = () => {
                   {isSuccess && (
                     <Form
                       onSubmit={onSubmit}
-                      initialValues={{
-                        ...(group[0].calculatedGroupType === 'Microsoft 365' ||
-                        group[0].calculatedGroupType === 'Distribution List'
-                          ? { allowExternal: SenderAuth.allowedToReceiveExternal }
-                          : {}),
-                      }}
                       render={({ handleSubmit, submitting, values }) => {
                         return (
                           <CForm onSubmit={handleSubmit}>
@@ -319,10 +304,8 @@ const EditGroup = () => {
                   {isFetching && <CSpinner />}
                   {isSuccess && (
                     <>
-                      <div>
-                        This is the (raw) information for this group.
-                        <pre>{JSON.stringify(group, null, 2)}</pre>
-                      </div>
+                      This is the (raw) information for this group.
+                      <pre>{JSON.stringify(group, null, 2)}</pre>
                     </>
                   )}
                 </CCardBody>

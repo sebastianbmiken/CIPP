@@ -2,11 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CellTip, cellBooleanFormatter } from 'src/components/tables'
 import { CippPageList } from 'src/components/layout'
-import {
-  CellBytes,
-  CellBytesToPercentage,
-  cellBytesFormatter,
-} from 'src/components/tables/CellBytes'
 
 const MailboxStatsList = () => {
   const [tenantColumnSet, setTenantColumn] = useState(true)
@@ -41,11 +36,11 @@ const MailboxStatsList = () => {
       omit: tenantColumnSet,
     },
     {
-      selector: (row) => row['userPrincipalName'],
+      selector: (row) => row['UPN'],
       name: 'User Prinicipal Name',
       sortable: true,
-      cell: (row) => CellTip(row['userPrincipalName']),
-      exportSelector: 'userPrincipalName',
+      cell: (row) => CellTip(row['UPN']),
+      exportSelector: 'UPN',
       minWidth: '200px',
     },
     {
@@ -56,58 +51,41 @@ const MailboxStatsList = () => {
       exportSelector: 'displayName',
     },
     {
-      selector: (row) => row[' recipientType'],
+      selector: (row) => row['MailboxType'],
       name: 'Mailbox Type',
       sortable: true,
-      cell: (row) => CellTip(row['recipientType']),
-      exportSelector: 'recipientType',
+      exportSelector: 'MailboxType',
     },
     {
-      selector: (row) => row['lastActivityDate'],
+      selector: (row) => row['LastActive'],
       name: 'Last Active',
       sortable: true,
-      exportSelector: 'lastActivityDate',
+      exportSelector: 'LastActive',
     },
     {
-      selector: (row) => row['storageUsedInBytes'],
-      cell: cellBytesFormatter(),
-      name: 'Used Space (GB)',
+      selector: (row) => row['UsedGB'],
+      name: 'Used Space(GB)',
       sortable: true,
-      exportSelector: 'storageUsedInBytes',
-      exportFormatter: CellBytes,
+      exportSelector: 'UsedGB',
     },
     {
-      selector: (row) => row['prohibitSendReceiveQuotaInBytes'],
-      cell: cellBytesFormatter(),
+      selector: (row) => row['QuotaGB'],
       name: 'Quota (GB)',
       sortable: true,
-      exportSelector: 'prohibitSendReceiveQuotaInBytes',
-      exportFormatter: CellBytes,
+      exportSelector: 'QuotaGB',
     },
     {
-      selector: (row) =>
-        Math.round((row.storageUsedInBytes / row.prohibitSendReceiveQuotaInBytes) * 100 * 10) / 10,
-      name: 'Quota Used(%)',
-      sortable: true,
-      exportSelector: 'CippStatus',
-      exportFormatter: CellBytesToPercentage,
-      exportFormatterArgs: {
-        value: 'storageUsedInBytes',
-        dividedBy: 'prohibitSendReceiveQuotaInBytes',
-      },
-    },
-    {
-      selector: (row) => row['itemCount'],
+      selector: (row) => row['ItemCount'],
       name: 'Item Count (Total)',
       sortable: true,
-      exportSelector: 'itemCount',
+      exportSelector: 'ItemCount',
     },
     {
-      selector: (row) => row['hasArchive'],
+      selector: (row) => row['HasArchive'],
       name: 'Archiving Enabled',
       sortable: true,
       cell: cellBooleanFormatter({ colourless: true }),
-      exportSelector: 'hasArchive',
+      exportSelector: 'HasArchive',
     },
   ]
   useEffect(() => {
@@ -125,13 +103,9 @@ const MailboxStatsList = () => {
       datatable={{
         keyField: 'id',
         reportName: `${tenant?.defaultDomainName}-MailboxStatistics-List`,
-        path: '/api/ListGraphRequest',
-        params: {
-          TenantFilter: tenant?.defaultDomainName,
-          Endpoint: "reports/getMailboxUsageDetail(period='D7')",
-          $format: 'application/json',
-        },
+        path: '/api/ListMailboxStatistics',
         columns,
+        params: { TenantFilter: tenant?.defaultDomainName },
         tableProps: {
           conditionalRowStyles: conditionalRowStyles,
         },

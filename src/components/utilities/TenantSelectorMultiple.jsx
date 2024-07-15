@@ -4,15 +4,12 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 const TenantSelectorMultiple = React.forwardRef(
-  (
-    { values = [], onChange = () => {}, AllTenants = false, valueIsDomain = false, ...rest },
-    ref,
-  ) => {
+  ({ values = [], onChange = () => {}, ...rest }, ref) => {
     const {
       data: tenants = [],
       isLoading,
       error,
-    } = useListTenantsQuery({ showAllTenantSelector: AllTenants })
+    } = useListTenantsQuery({ showAllTenantsSelector: false })
 
     let placeholder = 'Select Tenants'
     if (isLoading) {
@@ -36,7 +33,6 @@ const TenantSelectorMultiple = React.forwardRef(
         options={tenants.map(({ customerId, defaultDomainName, displayName }) => ({
           value: customerId,
           label: [displayName] + [` (${defaultDomainName})`],
-          fullValue: { customerId, defaultDomainName, displayName },
         }))}
         multiple
         printOptions="on-focus"
@@ -48,8 +44,6 @@ const TenantSelectorMultiple = React.forwardRef(
 
 TenantSelectorMultiple.propTypes = {
   onChange: PropTypes.func,
-  AllTenants: PropTypes.bool,
-  valueIsDomain: PropTypes.bool,
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 

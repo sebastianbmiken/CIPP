@@ -60,6 +60,7 @@ const ApplyGroupTemplate = () => {
                 let template = intuneTemplates.data.filter(function (obj) {
                   return obj.GUID === value
                 })
+                // console.log(template[0][set])
                 onChange(template[0][set])
               }}
             </OnChange>
@@ -152,8 +153,6 @@ const ApplyGroupTemplate = () => {
               placeholder="Select a group type"
               values={[
                 { label: 'Dynamic Group', value: 'dynamic' },
-                { label: 'Dynamic Distribution Group ', value: 'dynamicdistribution' },
-
                 { label: 'Security Group', value: 'generic' },
                 { label: 'Distribution group', value: 'distribution' },
                 { label: 'Azure Role Group', value: 'azurerole' },
@@ -201,14 +200,6 @@ const ApplyGroupTemplate = () => {
               />
             </Condition>
             <Condition when="groupType" is="dynamic">
-              <RFFCFormTextarea
-                type="text"
-                name="MembershipRules"
-                label="Membership Rule"
-                placeholder="Enter membership rule syntax"
-              />
-            </Condition>
-            <Condition when="groupType" is="dynamicdistribution">
               <RFFCFormTextarea
                 type="text"
                 name="MembershipRules"
