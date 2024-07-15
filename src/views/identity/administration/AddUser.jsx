@@ -74,13 +74,6 @@ const AddUser = () => {
 
   const [genericPostRequest, postResults] = useLazyGenericPostRequestQuery()
   const onSubmit = (values) => {
-    if (values.defaultAttributes) {
-      //map default attributes to the addedAttributes array. If addedAttributes is not present, create it.
-      values.addedAttributes = values.addedAttributes ? values.addedAttributes : []
-      Object.keys(values.defaultAttributes).forEach((key) => {
-        values.addedAttributes.push({ Key: key, Value: values.defaultAttributes[key].Value })
-      })
-    }
     const shippedValues = {
       AddedAliases: values.addedAliases ? values.addedAliases : '',
       BusinessPhone: values.businessPhones,
@@ -105,7 +98,6 @@ const AddUser = () => {
       MustChangePass: values.MustChangePass,
       tenantID: tenantDomain,
       addedAttributes: values.addedAttributes,
-      setManager: values.setManager,
       ...values.license,
     }
     //window.alert(JSON.stringify(shippedValues))
@@ -131,8 +123,6 @@ const AddUser = () => {
     usageLocation: usagelocation,
     ...allQueryObj,
   }
-  const currentSettings = useSelector((state) => state.app)
-
   // Effect to update display name when first or last name changes
   useEffect(() => {
     setDisplayName(`${firstName} ${lastName}`)
@@ -330,19 +320,6 @@ const AddUser = () => {
                         </CCol>
                       </CRow>
                       <>
-                        {currentSettings?.userSettingsDefaults?.defaultAttributes?.map(
-                          (attribute, idx) => (
-                            <CRow key={idx}>
-                              <CCol>
-                                <RFFCFormInput
-                                  name={`defaultAttributes.${attribute.label}.Value`}
-                                  label={attribute.label}
-                                  type="text"
-                                />
-                              </CCol>
-                            </CRow>
-                          ),
-                        )}
                         {addedAttributes > 0 &&
                           [...Array(addedAttributes)].map((e, i) => (
                             <CRow key={i}>
@@ -384,18 +361,6 @@ const AddUser = () => {
                         </CCol>
                       </CRow>
                       <CRow className="mb-3">
-                        <CCol md={12}>
-                          <RFFSelectSearch
-                            label="Set Manager"
-                            values={users?.map((user) => ({
-                              value: user.id,
-                              name: user.displayName,
-                            }))}
-                            placeholder={!usersIsFetching ? 'Select user' : 'Loading...'}
-                            name="setManager"
-                          />
-                          {usersError && <span>Failed to load list of users</span>}
-                        </CCol>
                         <CCol md={12}>
                           <RFFSelectSearch
                             label="Copy group membership from other user"

@@ -34,28 +34,6 @@ Error.propTypes = {
 const AddAPDevice = () => {
   const [genericPostRequest, postResults] = useLazyGenericPostRequestQuery()
   const [autopilotData, setAutopilotdata] = useState([])
-  const completeColumns = [
-    {
-      name: 'Serial Number',
-      selector: (row) => row['serialNumber'],
-      sortable: true,
-    },
-    {
-      name: 'Status',
-      selector: (row) => row['status'],
-      sortable: true,
-    },
-    {
-      name: 'Error Code',
-      selector: (row) => row['errorCode'],
-      sortable: true,
-    },
-    {
-      name: 'Error Description',
-      selector: (row) => row['errorDescription'],
-      sortable: true,
-    },
-  ]
   const tableColumns = [
     {
       name: 'serialNumber',
@@ -115,6 +93,7 @@ const AddAPDevice = () => {
       }
     })
     setAutopilotdata([...autopilotData, ...importdata])
+    // console.log(importdata)
   }
 
   const handleOnError = (err, file, inputElem, reason) => {
@@ -289,18 +268,8 @@ const AddAPDevice = () => {
               <CSpinner>Loading</CSpinner>
             </CCallout>
           )}
-          {postResults.isSuccess && (
-            <>
-              <CCallout color="success">{postResults.data?.Results?.Status}</CCallout>
-              <CippTable
-                reportName="none"
-                tableProps={{ subheader: false }}
-                data={postResults.data?.Results?.Devices}
-                columns={completeColumns}
-              />
-            </>
-          )}
-          {autopilotData && !postResults.isSuccess && (
+          {postResults.isSuccess && <CCallout color="success">{postResults.data.Results}</CCallout>}
+          {autopilotData && (
             <CippTable
               reportName="none"
               tableProps={{ subheader: false }}

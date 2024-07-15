@@ -5,9 +5,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CippPageList } from 'src/components/layout'
 import { CellTip } from 'src/components/tables'
-import { cellCopyButtonFormatter } from 'src/components/tables/CellCopyButton'
 import { CippActionsOffcanvas } from 'src/components/utilities'
-import CippCopyToClipboard from 'src/components/utilities/CippCopyToClipboard'
 
 const SharepointList = () => {
   const tenant = useSelector((state) => state.app.currentTenant)
@@ -22,7 +20,7 @@ const SharepointList = () => {
           <FontAwesomeIcon icon={faEllipsisV} />
         </CButton>
         <CippActionsOffcanvas
-          title="Extended Information"
+          title="User Information"
           extendedInfo={[
             {
               label: 'Site URL',
@@ -81,7 +79,7 @@ const SharepointList = () => {
                 RemovePermission: false,
                 URL: row.URL,
               },
-              modalUrl: `/api/ExecSharePointPerms`,
+              modalUrl: `/api/ExecSharePointOwner`,
               modalDropdown: {
                 url: `/api/listUsers?TenantFilter=${tenant.defaultDomainName}`,
                 labelField: 'displayName',
@@ -100,7 +98,7 @@ const SharepointList = () => {
                 RemovePermission: true,
                 URL: row.URL,
               },
-              modalUrl: `/api/ExecSharePointPerms`,
+              modalUrl: `/api/ExecSharePointOwner`,
               modalDropdown: {
                 url: `/api/listUsers?TenantFilter=${tenant.defaultDomainName}`,
                 labelField: 'displayName',
@@ -168,14 +166,6 @@ const SharepointList = () => {
       cell: (row) => CellTip(row['Template']),
       exportSelector: 'Template',
       maxWidth: '200px',
-    },
-    {
-      name: 'Automapping URL',
-      selector: (row) => row['AutoMapUrl'],
-      sortable: true,
-      cell: cellCopyButtonFormatter(),
-      exportSelector: 'AutoMapUrl',
-      maxWidth: '170px',
     },
     {
       name: 'Actions',

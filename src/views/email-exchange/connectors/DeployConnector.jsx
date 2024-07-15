@@ -54,6 +54,7 @@ const DeployConnectorTemplate = () => {
                 let template = EXConnectorTemplates.data.filter(function (obj) {
                   return obj.GUID === value
                 })
+                // console.log(template[0][set])
                 onChange(JSON.stringify(template[0]))
               }}
             </OnChange>

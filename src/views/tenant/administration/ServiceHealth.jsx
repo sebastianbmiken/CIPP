@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { CippPageList } from 'src/components/layout'
 import { CellTip } from 'src/components/tables'
 
@@ -38,7 +37,6 @@ const columns = [
 ]
 
 const ServiceHealth = () => {
-  const currentTenant = useSelector((state) => state.app.currentTenant)
   return (
     <CippPageList
       capabilities={{ allTenants: true, helpContext: 'https://google.com' }}
@@ -47,11 +45,6 @@ const ServiceHealth = () => {
       datatable={{
         columns,
         path: '/api/ListServiceHealth',
-        params: {
-          tenantFilter: currentTenant.customerId,
-          displayName: currentTenant.displayName,
-          defaultDomainName: currentTenant.defaultDomainName,
-        },
         reportName: `Service-Health-Report`,
       }}
     />

@@ -18,7 +18,7 @@ const Offcanvas = (row, rowIndex, formatExtraData) => {
         <FontAwesomeIcon icon={faEllipsisV} />
       </CButton>
       <CippActionsOffcanvas
-        title="Extended Information"
+        title="User Information"
         extendedInfo={[
           { label: 'Created on', value: `${row.createdDateTime}` },
           { label: 'UPN', value: `${row.userPrincipalName}` },
@@ -93,7 +93,6 @@ const columns = [
     name: 'id',
     selector: (row) => row['id'],
     omit: true,
-    exportSelector: 'id',
   },
   {
     name: 'Actions',

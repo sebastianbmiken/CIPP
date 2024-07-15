@@ -19,7 +19,7 @@ const OneDriveList = () => {
           <FontAwesomeIcon icon={faEllipsisV} />
         </CButton>
         <CippActionsOffcanvas
-          title="Extended Information"
+          title="User Information"
           extendedInfo={[
             {
               label: 'User Principal Name',
@@ -37,7 +37,7 @@ const OneDriveList = () => {
                 TenantFilter: tenant.defaultDomainName,
                 RemovePermission: false,
               },
-              modalUrl: `/api/ExecSharePointPerms`,
+              modalUrl: `/api/ExecSharePointOwner`,
               modalDropdown: {
                 url: `/api/listUsers?TenantFilter=${tenant.defaultDomainName}`,
                 labelField: 'displayName',
@@ -55,7 +55,7 @@ const OneDriveList = () => {
                 TenantFilter: tenant.defaultDomainName,
                 RemovePermission: true,
               },
-              modalUrl: `/api/ExecSharePointPerms`,
+              modalUrl: `/api/ExecSharePointOwner`,
               modalDropdown: {
                 url: `/api/listUsers?TenantFilter=${tenant.defaultDomainName}`,
                 labelField: 'displayName',
@@ -111,12 +111,6 @@ const OneDriveList = () => {
       selector: (row) => row['Allocated'],
       sortable: true,
       exportSelector: 'Allocated',
-    },
-    {
-      selector: (row) => Math.round((row.UsedGB / row.Allocated) * 100 * 10) / 10,
-      name: 'Quota Used(%)',
-      sortable: true,
-      exportSelector: 'QuotaUsed',
     },
     {
       name: 'URL',
